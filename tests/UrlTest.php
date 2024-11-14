@@ -3,6 +3,8 @@
 namespace SwUrl\Tests;
 
 use PHPUnit\Framework\TestCase;
+use Swurl\Host;
+use Swurl\Scheme;
 use Swurl\Url;
 
 class UrlTest extends TestCase
@@ -43,7 +45,7 @@ class UrlTest extends TestCase
     public function testAddingToPartialUrls()
     {
         $u = new Url('/foo/bar');
-        $u->setHost('www.example.com');
+        $u->setHost(new Host('www.example.com'));
         $this->assertEquals('www.example.com/foo/bar', $u->__toString());
 
         $u->getQuery()->set('foo', 'bar');
@@ -69,14 +71,14 @@ class UrlTest extends TestCase
     public function testRelativePathWithHost()
     {
         $url = new \Swurl\Url('test');
-        $url->setHost('google.com');
+        $url->setHost(new Host('google.com'));
         $this->assertEquals('google.com/test', $url->__toString());
     }
 
     public function testSchemeWithNoHost()
     {
         $url = new \Swurl\Url('/foo/bar.jpg');
-        $url->setScheme('http');
+        $url->setScheme(new Scheme('http'));
         $this->assertEquals('/foo/bar.jpg', $url->__toString());
     }
 
@@ -87,17 +89,17 @@ class UrlTest extends TestCase
 
         $this->assertEquals('/foo/bar.jpg', $url->__toString());
 
-        $url->setHost('example.com');
+        $url->setHost(new Host('example.com'));
         $this->assertEquals('//example.com/foo/bar.jpg', $url->__toString());
 
-        $url->setScheme('http');
+        $url->setScheme(new Scheme('http'));
         $this->assertEquals('http://example.com/foo/bar.jpg', $url->__toString());
 
         $url = new Url('//foo.com/bar/bar.jpg');
         $this->assertTrue($url->isSchemeless());
         $this->assertEquals('//foo.com/bar/bar.jpg', $url->__toString());
 
-        $url->setScheme('http');
+        $url->setScheme(new Scheme('http'));
         $this->assertEquals('http://foo.com/bar/bar.jpg', $url->__toString());
 
         $url->setScheme(null);

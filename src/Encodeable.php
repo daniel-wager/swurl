@@ -8,7 +8,7 @@ trait Encodeable
 {
     private $encoder = 'urlencode';
 
-    public function setEncoder(string|false|null $encoder): void
+    public function setEncoder(?string $encoder): void
     {
         if ($encoder && ! is_callable($encoder)) {
             throw new InvalidArgumentException('$encoder must be a callable function');
